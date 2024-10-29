@@ -48,10 +48,14 @@ function createRequestClient(baseURL: string) {
    */
   async function doRefreshToken() {
     const accessStore = useAccessStore();
-    const resp = await refreshTokenApi();
-    const newToken = resp.data;
-    accessStore.setAccessToken(newToken);
-    return newToken;
+    if (!accessStore.refreshToken) {
+      throw new Error('Refresh token is null');
+    }
+    const resp = await refreshTokenApi({ token: accessStore.refreshToken });
+    const { accessToken, refreshToken } = resp;
+    accessStore.setAccessToken(accessToken);
+    accessStore.setRefreshToken(refreshToken);
+    return accessToken;
   }
 
   function formatToken(token: null | string) {
@@ -72,13 +76,10 @@ function createRequestClient(baseURL: string) {
   // response数据解构
   client.addResponseInterceptor<HttpResponse>({
     fulfilled: (response) => {
-      const { data: responseData, status } = response;
-
-      const { code, data, message: msg } = responseData;
-      if (status >= 200 && status < 400 && code === 0) {
-        return data;
+      const { data, status } = response;
+      if (status >= 200 && status < 400) {
+        return data as any;
       }
-      throw new Error(`Error ${status}: ${msg}`);
     },
   });
 
@@ -95,13 +96,10 @@ function createRequestClient(baseURL: string) {
 
   // 通用的错误处理,如果没有进入上面的错误处理逻辑，就会进入这里
   client.addResponseInterceptor(
-    errorMessageResponseInterceptor((msg: string, error) => {
+    errorMessageResponseInterceptor((_msg: string, error) => {
       // 这里可以根据业务进行定制,你可以拿到 error 内的信息进行定制化处理，根据不同的 code 做不同的提示，而不是直接使用 message.error 提示 msg
-      // 当前mock接口返回的错误字段是 error 或者 message
-      const responseData = error?.response?.data ?? {};
-      const errorMessage = responseData?.error ?? responseData?.message ?? '';
-      // 如果没有错误信息，则会根据状态码进行提示
-      message.error(errorMessage || msg);
+      const error_msg = error.response?.data?.error_message;
+      message.error(error_msg);
     }),
   );
 

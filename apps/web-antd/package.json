@@ -1,12 +1,12 @@
 {
-  "name": "@vben/web-antd",
-  "version": "5.4.0",
+  "name": "@vben/web-axum",
+  "version": "5.3.2",
   "homepage": "https://vben.pro",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
-    "directory": "apps/web-antd"
+    "directory": "apps/web-axum"
   },
   "license": "MIT",
   "author": {
@@ -43,7 +43,9 @@
     "@vueuse/core": "catalog:",
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
+    "lucide-vue-next": "^0.436.0",
     "pinia": "catalog:",
+    "pixi.js": "^8.5.2",
     "vue": "catalog:",
     "vue-router": "catalog:"
   }

@@ -2,7 +2,8 @@
   "page": {
     "demos": {
       "title": "Demos",
-      "antd": "Ant Design Vue"
+      "uploadImage": "uploadImage",
+      "imageList": "ImageList"
     }
   }
 }

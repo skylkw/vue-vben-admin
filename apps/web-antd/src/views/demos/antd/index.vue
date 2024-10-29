@@ -1,66 +1,57 @@
 <script lang="ts" setup>
-import { Page } from '@vben/common-ui';
+import type { UploadRequestOption } from 'ant-design-vue/es/vc-upload/interface';
 
-import { Button, Card, message, notification, Space } from 'ant-design-vue';
+import { ref } from 'vue';
 
-type NotificationType = 'error' | 'info' | 'success' | 'warning';
+import { Card, CardContent, CardHeader, Page } from '@vben/common-ui';
 
-function info() {
-  message.info('How many roads must a man walk down');
-}
+import { message, type UploadProps } from 'ant-design-vue';
+import { UploadDragger } from 'ant-design-vue';
+import { Inbox } from 'lucide-vue-next';
 
-function error() {
-  message.error({
-    content: 'Once upon a time you dressed so fine',
-    duration: 2500,
-  });
-}
+import { uploadImage } from '#/api';
 
-function warning() {
-  message.warning('How many roads must a man walk down');
-}
-function success() {
-  message.success('Cause you walked hand in hand With another man in my place');
-}
+const fileList = ref<UploadProps['fileList']>([]);
+const loading = ref<boolean>(false);
 
-function notify(type: NotificationType) {
-  notification[type]({
-    duration: 2500,
-    message: '说点啥呢',
-    type,
-  });
-}
+const customRequest = async (options: UploadRequestOption) => {
+  const { file, onSuccess, onError } = options;
+  if (file instanceof File) {
+    loading.value = true;
+
+    try {
+      const res = await uploadImage(file);
+
+      message.success(`${file.name} file uploaded successfully`);
+      onSuccess!(res);
+    } catch (error) {
+      message.error('upload error');
+      onError!(error as Error);
+    } finally {
+      loading.value = false;
+    }
+  }
+};
 </script>
-
 <template>
-  <Page
-    description="支持多语言，主题功能集成切换等"
-    title="Ant Design Vue组件使用演示"
-  >
-    <Card class="mb-5" title="按钮">
-      <Space>
-        <Button>Default</Button>
-        <Button type="primary"> Primary </Button>
-        <Button> Info </Button>
-        <Button danger> Error </Button>
-      </Space>
-    </Card>
-    <Card class="mb-5" title="Message">
-      <Space>
-        <Button @click="info"> 信息 </Button>
-        <Button danger @click="error"> 错误 </Button>
-        <Button @click="warning"> 警告 </Button>
-        <Button @click="success"> 成功 </Button>
-      </Space>
-    </Card>
-
-    <Card class="mb-5" title="Notification">
-      <Space>
-        <Button @click="notify('info')"> 信息 </Button>
-        <Button danger @click="notify('error')"> 错误 </Button>
-        <Button @click="notify('warning')"> 警告 </Button>
-        <Button @click="notify('success')"> 成功 </Button>
-      </Space>
+  <Page>
+    <Card>
+      <CardHeader>
+        <h2 class="text-primary-500 text-xl font-bold">上传图片</h2>
+      </CardHeader>
+      <CardContent>
+        <UploadDragger
+          v-model:file-list="fileList"
+          :custom-request="customRequest"
+          list-type="picture"
+          multiple
+        >
+          <div class="flex flex-col items-center justify-center">
+            <Inbox class="text-primary-600 h-8 w-8" />
+            <p class="ant-upload-text">点击或拖动文件到此区域上传</p>
+          </div>
+        </UploadDragger>
+      </CardContent>
     </Card>
   </Page>
 </template>
