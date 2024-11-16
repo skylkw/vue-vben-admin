@@ -10,5 +10,10 @@
     "title": "概览",
     "analytics": "分析页",
     "workspace": "工作台"
+  },
+  "demos": {
+    "uploadImage": "上传图片",
+    "pixi": "PixiJS",
+    "canvas": "Canvas"
   }
 }

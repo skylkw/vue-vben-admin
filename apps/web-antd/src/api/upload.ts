@@ -14,7 +14,7 @@ export namespace UploadApi {
 export async function uploadImage(
   file: File,
 ): Promise<Array<UploadApi.UploadImageResult>> {
-  const response: any = await requestClient.upload('/upload/image', {
+  const response: any = await requestClient.upload('/image/upload', {
     file,
   });
   return response as Array<UploadApi.UploadImageResult>;

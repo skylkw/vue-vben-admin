@@ -42,6 +42,7 @@
     "@vben/utils": "workspace:*",
     "@vueuse/core": "catalog:",
     "ant-design-vue": "catalog:",
+    "canvas-labeler": "^0.0.3",
     "dayjs": "catalog:",
     "lucide-vue-next": "^0.436.0",
     "pinia": "catalog:",

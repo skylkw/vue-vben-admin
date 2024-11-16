@@ -16,6 +16,9 @@ export const overridesPreferences = defineOverridesPreferences({
   sidebar: {
     width: 220,
   },
+  tabbar: {
+    enable: false,
+  },
   theme: {
     builtinType: 'pink',
     colorPrimary: 'hsl(347 77% 60%)',

@@ -23,6 +23,22 @@ const routes: RouteRecordRaw[] = [
         path: '/demos/ant-design',
         component: () => import('#/views/demos/antd/index.vue'),
       },
+      {
+        meta: {
+          title: $t('page.demos.pixi'),
+        },
+        name: 'pixi',
+        path: '/demos/pixi',
+        component: () => import('#/views/demos/pixi/index.vue'),
+      },
+      {
+        meta: {
+          title: $t('page.demos.canvas'),
+        },
+        name: 'canvas',
+        path: '/demos/canvas',
+        component: () => import('#/views/demos/canvas/index.vue'),
+      },
     ],
   },
 ];

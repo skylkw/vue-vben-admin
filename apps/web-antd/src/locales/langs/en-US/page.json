@@ -10,5 +10,6 @@
     "title": "Dashboard",
     "analytics": "Analytics",
     "workspace": "Workspace"
-  }
+  },
+  "demos": { "uploadImage": "Upload Image", "pixi": "PixiJS", "canvas": "Canvas" }
 }
